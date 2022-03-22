@@ -14,9 +14,21 @@ jobs:
         name: Call Azure Pipeline
         runs-on: ubuntu-latest
         steps:
+        - uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
+        - name: Use Node.js
+          uses: actions/setup-node@v1
+          with:
+            node-version: '16'
+        - run: |
+            set -ex
+            version=$(node -pe 'require("./package.json").version')
+            echo "dep_version=$version" >> $GITHUB_ENV
         - name: Azure Pipelines Action
           uses: Azure/pipelines@v1
           with:
             azure-devops-project-url: https://dev.azure.com/office/Office
             azure-pipeline-name: '1JS Upgrade Checker'
             azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
+            azure-pipeline-variables:  '{"dep_name": "lage", "dep_version": "${{ env.dep_version }}"}'
