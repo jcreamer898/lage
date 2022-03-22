@@ -26,7 +26,7 @@ jobs:
             version=$(node -pe 'require("./package.json").version')
             echo "dep_version=$version" >> $GITHUB_ENV
         - name: Azure Pipelines Action
-          uses: Azure/pipelines@v1
+          uses: Azure/pipelines@v1.2
           with:
             azure-devops-project-url: https://dev.azure.com/office/Office
             azure-pipeline-name: '1JS Upgrade Checker'
